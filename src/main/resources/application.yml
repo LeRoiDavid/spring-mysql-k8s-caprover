@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-caprover
+
+  h2:
+    console.enabled: true
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+#  datasource:
+#    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+#
+#
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
