@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment # Kubernetes resource kind we are creating
+metadata:
+  name: spring-boot-k8s
+spec:
+  selector:
+    matchLabels:
+      app: spring-caprover-k8s
+  replicas: 2 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: spring-caprover-k8s
+    spec:
+      containers:
+        - name: spring-caprover-k8s
+          image: spring-caprover-k8s:1.1 # Image that will be used to containers in the cluster
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080 # The port that the container is running on in the cluster
+
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: db_user
+
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: db_password
+
+            - name: MYSQL_HOST
+              value: mysql-caprover
+
+            - name: MYSQL_PORT
+              value: "3306"
+
+            - name: MYSQL_DBNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: db_name
